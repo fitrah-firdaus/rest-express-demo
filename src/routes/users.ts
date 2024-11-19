@@ -1,4 +1,4 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Router, Request, Response } from 'express';
 
 const router: Router = Router();
 
@@ -15,12 +15,12 @@ let users: User[] = [
 ];
 
 // GET all users
-router.get('/', (req: Request, res: Response, next: NextFunction): void => {
+router.get('/', (_req: Request, res: Response): void => {
     res.json(users);
 });
 
 // GET a single user by ID
-router.get('/:id', (req: Request, res: Response, next: NextFunction): void => {
+router.get('/:id', (req: Request, res: Response): void => {
     const user = users.find(u => u.id === parseInt(req.params.id));
     if (!user) {
         res.status(404).json({ error: 'User not found' });
@@ -30,7 +30,7 @@ router.get('/:id', (req: Request, res: Response, next: NextFunction): void => {
 });
 
 // POST a new user
-router.post('/', (req: Request, res: Response, next: NextFunction): void => {
+router.post('/', (req: Request, res: Response): void => {
     const { name, email } = req.body;
     const newUser: User = { id: users.length + 1, name, email };
     users.push(newUser);
@@ -38,7 +38,7 @@ router.post('/', (req: Request, res: Response, next: NextFunction): void => {
 });
 
 // PUT to update a user
-router.put('/:id', (req: Request, res: Response, next: NextFunction): void => {
+router.put('/:id', (req: Request, res: Response): void => {
     const user = users.find(u => u.id === parseInt(req.params.id));
     if (!user) {
         res.status(404).json({ error: 'User not found' });
@@ -52,7 +52,7 @@ router.put('/:id', (req: Request, res: Response, next: NextFunction): void => {
 });
 
 // DELETE a user
-router.delete('/:id', (req: Request, res: Response, next: NextFunction): void => {
+router.delete('/:id', (req: Request, res: Response): void => {
     const userIndex = users.findIndex(u => u.id === parseInt(req.params.id));
     if (userIndex === -1) {
         res.status(404).json({ error: 'User not found' });
